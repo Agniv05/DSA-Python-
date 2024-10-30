@@ -1,0 +1,46 @@
+Space complexity measures the amount of memory an algorithm or program uses in relation to the input size, 𝑛. It accounts for both the space required for the variables and any additional data structures used, like arrays, lists, or recursion stacks.
+
+How to Find Space Complexity:
+
+Identify Different Types of Memory Usage:
+Fixed Part (Constant Space): This includes variables, constants, and temporary storage that do not depend on the input size (e.g., a few integer variables).
+Variable Part (Dependent on Input Size): Memory that depends on 𝑛, like arrays, lists, or recursion call stacks, increases with the input size.
+Analyze Data Structures:
+
+If your program uses data structures like arrays, hash tables, trees, or linked lists, evaluate their sizes based on the input size. For instance, an array of size 𝑛 contributes 𝑂(𝑛) space complexity.
+
+Account for Recursive Calls:
+If your algorithm is recursive, each recursive call adds a new frame to the call stack. For a recursive function that calls itself 𝑛 times, this adds 𝑂(𝑛) space. For divide-and-conquer recursions, like 
+binary recursion, the space can be 𝑂(log 𝑛).
+
+Ignore Constants and Lower Order Terms:
+Like with time complexity, ignore constant factors and non-dominant terms when calculating the final space complexity.
+
+
+
+def add_one(n):
+    result = n + 1
+    return result
+O(1)
+
+def create_array(n):
+    arr = [0] * n
+    return arr
+O(n)
+
+def create_matrix(n):
+    matrix = [[0] * n for _ in range(n)]
+    return matrix
+Each recursive call adds a new frame to the stack, so if factorial is called with input 𝑛, it creates 𝑛 frames, leading to O(n) space complexity.
+
+def binary_search(arr, target, low, high):                #recursive
+    if low > high:
+        return -1
+    mid = (low + high) // 2
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] < target:
+        return binary_search(arr, target, mid + 1, high)
+    else:
+        return binary_search(arr, target, low, mid - 1)
+In binary search, each recursive call reduces the search space by half. The maximum depth of the recursion stack is log 𝑛, so the space complexity is O(log n).
