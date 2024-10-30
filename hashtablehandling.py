@@ -111,3 +111,87 @@ class HashTable:
             if kv[0] == key:
                 print("del", index)  # Optional: print the index of the deleted item
                 del self.arr[arr_index][index]  # Remove the item from the list
+
+
+
+class Dictionary:
+
+  def __init__(self, size):
+    # Initialize the size of the hash table
+    self.size = size
+    # Create two lists for storing keys (slots) and values (data) with the specified size
+    self.slots = [None] * self.size
+    self.data = [None] * self.size
+
+  def put(self, key, value):
+    # Get the hash value for the key
+    hash_value = self.hash_function(key)
+
+    # If the slot at the hash value index is empty, store the key and value there
+    if self.slots[hash_value] is None:
+      self.slots[hash_value] = key
+      self.data[hash_value] = value
+
+    else:
+      # If the key already exists, update its value
+      if self.slots[hash_value] == key:
+        self.data[hash_value] = value
+      else:
+        # Handle collision: rehash to find a new slot
+        new_hash_value = self.rehash(hash_value)
+
+        # Continue rehashing until an empty slot or matching key is found
+        while self.slots[new_hash_value] is not None and self.slots[new_hash_value] != key:
+          new_hash_value = self.rehash(new_hash_value)
+
+        # If an empty slot is found, store the key-value pair there
+        if self.slots[new_hash_value] is None:
+          self.slots[new_hash_value] = key
+          self.data[new_hash_value] = value
+        else:
+          # If the key matches, update its value
+          self.data[new_hash_value] = value
+
+  def get(self, key):
+    # Get the starting hash value (index) for the key
+    start_position = self.hash_function(key)
+    current_position = start_position
+
+    # Traverse the table until the key is found or an empty slot is encountered
+    while self.slots[current_position] is not None:
+      # If the key is found, return its associated value
+      if self.slots[current_position] == key:
+        return self.data[current_position]
+      # Move to the next slot using rehash
+      current_position = self.rehash(current_position)
+
+      # If we've come full circle back to the starting position, key is not found
+      if current_position == start_position:
+        return "Not Found"
+
+    # If an empty slot is encountered, the key is not in the table
+    return "None wala Not Found"
+
+  def __str__(self):
+    # Print all non-empty slots with their corresponding values
+    for i in range(len(self.slots)):
+      if self.slots[i] is not None:
+        print(self.slots[i], ":", self.data[i], end=' ')
+    return ""
+
+  def __getitem__(self, key):
+    # Enable retrieval of values using dictionary-style indexing
+    return self.get(key)
+
+  def __setitem__(self, key, value):
+    # Enable assignment of values using dictionary-style indexing
+    self.put(key, value)
+  
+  def rehash(self, old_hash):
+    # Rehash function to handle collisions, moves to the next slot
+    return (old_hash + 1) % self.size
+
+  def hash_function(self, key):
+    # Compute hash value using Python's built-in hash function
+    return abs(hash(key)) % self.size
+
