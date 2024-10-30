@@ -40,3 +40,52 @@ graph = {
 start_node = "A"
 print("BFS Traversal Order:", bfs(graph, start_node))
 # BFS Traversal Order: ['A', 'B', 'C', 'D', 'E', 'F']
+
+
+
+#  Applying the BFS using recursion:
+
+def recursive_bfs(graph, queue, visited, bfs_order):
+    # Base case: If the queue is empty, end recursion
+    if not queue:
+        return
+
+    # Get the first node in the queue
+    node = queue.pop(0)
+    bfs_order.append(node)
+
+    # Visit all neighbors of the current node
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            visited.add(neighbor)
+            queue.append(neighbor)
+
+    # Recursive call with updated queue
+    recursive_bfs(graph, queue, visited, bfs_order)
+
+
+# Wrapper function to initiate recursive BFS
+def bfs(graph, start_node):
+    # Initialize visited set and bfs_order list
+    visited = set([start_node])
+    bfs_order = []
+    queue = [start_node]
+
+    # Start the recursive BFS
+    recursive_bfs(graph, queue, visited, bfs_order)
+    return bfs_order
+
+
+# Example usage
+graph = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B", "F"],
+    "F": ["C", "E"]
+}
+
+start_node = "A"
+print("Recursive BFS Traversal Order:", bfs(graph, start_node))
+#Recursive BFS Traversal Order: ['A', 'B', 'C', 'D', 'E', 'F']
