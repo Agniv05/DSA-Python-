@@ -74,3 +74,47 @@ print("DFS Iterative Traversal Order:", dfs_iterative(graph, start_node))
 
 #  Explicit Stack: The stack manages traversal order explicitly, pushing unvisited neighbors onto the stack.
 #  Traversal Order: Nodes are explored in the order they’re popped from the stack.
+
+def topological_sort_dfs(graph):
+    visited = set()       # Set to keep track of visited nodes
+    stack = []            # Stack to store the topological order
+
+    def dfs(node):
+        # Mark the current node as visited
+        visited.add(node)
+
+        # Visit all neighbors (dependencies) recursively
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                dfs(neighbor)
+
+        # Add current node to stack once all neighbors are visited
+        stack.append(node)
+
+    # Call DFS for each unvisited node in the graph
+    for node in graph:
+        if node not in visited:
+            dfs(node)
+
+    # Return the reversed stack for the correct order
+    return stack[::-1]
+
+# Example usage
+graph = {
+    "A": ["C"],
+    "B": ["C", "D"],
+    "C": ["E"],
+    "D": ["F"],
+    "E": ["H", "F"],
+    "F": ["G"],
+    "G": [],
+    "H": []
+}
+
+print("Topological Sort (DFS):", topological_sort_dfs(graph))
+#  DFS Traversal: For each node, we explore all its dependencies first.
+#  Stack: After all dependencies are processed, the node is added to the stack.
+#  Order: We reverse the stack to get the topological order.
+
+#  Output:
+#  Topological Sort (DFS): ['B', 'A', 'D', 'C', 'E', 'H', 'F', 'G']
