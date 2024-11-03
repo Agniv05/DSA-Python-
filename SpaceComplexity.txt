@@ -1,16 +1,22 @@
-Space complexity measures the amount of memory an algorithm or program uses in relation to the input size, 𝑛. It accounts for both the space required for the variables and any additional data structures used, like arrays, lists, or recursion stacks.
+Space complexity measures the amount of memory an algorithm or program uses in relation to the input size, 𝑛. 
+It accounts for both the space required for the variables and any additional data structures used, like arrays,
+lists, or recursion stacks.
 
 How to Find Space Complexity:
 
 Identify Different Types of Memory Usage:
-Fixed Part (Constant Space): This includes variables, constants, and temporary storage that do not depend on the input size (e.g., a few integer variables).
-Variable Part (Dependent on Input Size): Memory that depends on 𝑛, like arrays, lists, or recursion call stacks, increases with the input size.
+Fixed Part (Constant Space): This includes variables, constants, and temporary storage that do not depend on the
+input size (e.g., a few integer variables).
+Variable Part (Dependent on Input Size): Memory that depends on 𝑛, like arrays, lists, or recursion call stacks, 
+increases with the input size.
 Analyze Data Structures:
 
-If your program uses data structures like arrays, hash tables, trees, or linked lists, evaluate their sizes based on the input size. For instance, an array of size 𝑛 contributes 𝑂(𝑛) space complexity.
+If your program uses data structures like arrays, hash tables, trees, or linked lists, evaluate their sizes based 
+on the input size. For instance, an array of size 𝑛 contributes 𝑂(𝑛) space complexity.
 
 Account for Recursive Calls:
-If your algorithm is recursive, each recursive call adds a new frame to the call stack. For a recursive function that calls itself 𝑛 times, this adds 𝑂(𝑛) space. For divide-and-conquer recursions, like 
+If your algorithm is recursive, each recursive call adds a new frame to the call stack. For a recursive function that
+calls itself 𝑛 times, this adds 𝑂(𝑛) space. For divide-and-conquer recursions, like 
 binary recursion, the space can be 𝑂(log 𝑛).
 
 Ignore Constants and Lower Order Terms:
