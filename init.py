@@ -26,10 +26,13 @@ print(car1.year)  # Output: 2022 (uses the default value)
 
 
 
-#  In Python, the __init__ method is a special method, often called the constructor, that is automatically called when an object (instance) of a class is created.
-#  This method is typically used to initialize the instance's attributes and set up any necessary initial state. The double underscores in __init__ indicate that
+#  In Python, the __init__ method is a special method, often called the constructor, that is automatically called when
+#  an object (instance) of a class is created.
+#  This method is typically used to initialize the instance's attributes and set up any necessary initial state. The double
+#  underscores in __init__ indicate that
 #  it's a "magic" method with a special purpose in Python.
 
 #  How __init__ Works
-#  Parameters: The first parameter of __init__ is always self, which refers to the instance being created. Additional parameters can be added to set initial values for the instance attributes.
+#  Parameters: The first parameter of __init__ is always self, which refers to the instance being created. Additional parameters
+#  can be added to set initial values for the instance attributes.
 #  Initialization: Inside __init__, you can define attributes specific to the instance, often based on the arguments provided during object creation.
