@@ -436,171 +436,137 @@ def print_linked_list(head):
 
 
 
-#   Circular Doubly Linked List
+# Circular Doubly Linked List
 
-# Define a Node class to represent each node in the circular doubly linked list
 class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
         self.prev = None
 
-# Define the CircularDoublyLinkedList class to manage the nodes and perform operations
-class CircularDoublyLinkedList:
-    def __init__(self):
-        self.head = None
+def create_node(data):
+    return Node(data)
 
-    # Insert node at the beginning of the list
-    def insert_at_beginning(self, data):
-        new_node = Node(data)
-        if not self.head:
-            new_node.next = new_node
-            new_node.prev = new_node
-            self.head = new_node
-        else:
-            tail = self.head.prev
-            new_node.next = self.head
-            new_node.prev = tail
-            tail.next = new_node
-            self.head.prev = new_node
-            self.head = new_node
+# Insert node at the beginning of the circular doubly linked list
+def insert_at_beginning(head, data):
+    new_node = create_node(data)
+    if not head:
+        new_node.next = new_node
+        new_node.prev = new_node
+        return new_node
+    tail = head.prev
+    new_node.next = head
+    new_node.prev = tail
+    tail.next = new_node
+    head.prev = new_node
+    return new_node
 
-    # Insert node at the end of the list
-    def insert_at_end(self, data):
-        new_node = Node(data)
-        if not self.head:
-            new_node.next = new_node
-            new_node.prev = new_node
-            self.head = new_node
-        else:
-            tail = self.head.prev
-            tail.next = new_node
-            new_node.prev = tail
-            new_node.next = self.head
-            self.head.prev = new_node
+# Insert node at the end of the circular doubly linked list
+def insert_at_end(head, data):
+    new_node = create_node(data)
+    if not head:
+        new_node.next = new_node
+        new_node.prev = new_node
+        return new_node
+    tail = head.prev
+    tail.next = new_node
+    new_node.prev = tail
+    new_node.next = head
+    head.prev = new_node
+    return head
 
-    # Insert node at a specific position in the list
-    def insert_at_position(self, data, position):
-        if position <= 0:
-            print("Position should be greater than 0.")
-            return
-        new_node = Node(data)
-        if not self.head:
-            # If the list is empty, insert as the only node
-            new_node.next = new_node
-            new_node.prev = new_node
-            self.head = new_node
-        elif position == 1:
-            # Insert at beginning if position is 1
-            self.insert_at_beginning(data)
-        else:
-            temp = self.head
-            for _ in range(position - 2):
-                temp = temp.next
-                if temp == self.head:  # If position is out of range
-                    print("Position out of range.")
-                    return
-            new_node.next = temp.next
-            new_node.prev = temp
-            temp.next.prev = new_node
-            temp.next = new_node
+# Insert node at a specific position in the circular doubly linked list
+def insert_at_position(head, data, position):
+    new_node = create_node(data)
+    if not head:
+        new_node.next = new_node
+        new_node.prev = new_node
+        return new_node
+    if position == 1:
+        return insert_at_beginning(head, data)
+    current = head
+    for _ in range(position - 2):
+        current = current.next
+        if current == head:
+            raise IndexError("Position out of range")
+    new_node.next = current.next
+    new_node.prev = current
+    current.next.prev = new_node
+    current.next = new_node
+    return head
 
-    # Reverse the list
-    def reverse(self):
-        if not self.head:
-            return
-        current = self.head
-        prev_node = None
-        while True:
-            next_node = current.next
-            current.next = prev_node
-            current.prev = next_node
-            prev_node = current
-            current = next_node
-            if current == self.head:
-                break
-        self.head.next = prev_node
-        prev_node.prev = self.head
-        self.head = prev_node
+# Delete the first node of the circular doubly linked list
+def del_at_beginning(head):
+    if not head:
+        return None
+    if head.next == head:
+        return None  # Only one element
+    tail = head.prev
+    new_head = head.next
+    tail.next = new_head
+    new_head.prev = tail
+    return new_head
 
-    # Delete the first node in the list
-    def delete_first(self):
-        if not self.head:
-            return
-        if self.head.next == self.head:
-            self.head = None
-        else:
-            tail = self.head.prev
-            self.head = self.head.next
-            self.head.prev = tail
-            tail.next = self.head
+# Delete the last node of the circular doubly linked list
+def del_at_end(head):
+    if not head:
+        return None
+    if head.next == head:
+        return None  # Only one element
+    tail = head.prev
+    new_tail = tail.prev
+    new_tail.next = head
+    head.prev = new_tail
+    return head
 
-    # Delete the last node in the list
-    def delete_last(self):
-        if not self.head:
-            return
-        if self.head.next == self.head:
-            self.head = None
-        else:
-            tail = self.head.prev
-            new_tail = tail.prev
-            new_tail.next = self.head
-            self.head.prev = new_tail
+# Reverse the circular doubly linked list
+def reverse(head):
+    if not head or head.next == head:
+        return head  # No change if list is empty or has one node
+    current = head
+    prev = None
+    while True:
+        next_node = current.next
+        current.next = prev
+        current.prev = next_node
+        prev = current
+        current = next_node
+        if current == head:
+            break
+    head.next = prev
+    prev.prev = head
+    return prev  # New head of the reversed list
 
-    # Delete a node at a specific position
-    def delete_at_position(self, position):
-        if position <= 0:
-            print("Position should be greater than 0.")
-            return
-        if not self.head:
-            print("List is empty.")
-            return
-        if position == 1:
-            self.delete_first()
-        else:
-            temp = self.head
-            for _ in range(position - 2):
-                temp = temp.next
-                if temp == self.head:  # If position is out of range
-                    print("Position out of range.")
-                    return
-            if temp.next == self.head:
-                print("Position out of range.")
-                return
-            next_node = temp.next.next
-            temp.next = next_node
-            if next_node:
-                next_node.prev = temp
+# Display the circular doubly linked list
+def display(head):
+    if not head:
+        print("List is empty")
+        return
+    current = head
+    while True:
+        print(current.data, end=" <-> ")
+        current = current.next
+        if current == head:
+            break
+    print("Head")
 
-    # Display the contents of the list
-    def display(self):
-        if not self.head:
-            print("List is empty.")
-            return
-        temp = self.head
-        while True:
-            print(temp.data, end=" <-> ")
-            temp = temp.next
-            if temp == self.head:
-                break
-        print("Head")
-
-# Example usage of the CircularDoublyLinkedList class
-cdll = CircularDoublyLinkedList()
-cdll.insert_at_end(10)
-cdll.insert_at_end(20)
-cdll.insert_at_end(30)
-cdll.insert_at_beginning(5)
-cdll.insert_at_position(25, 3)
+# Example usage
+head = None
+head = insert_at_beginning(head, 10)
+head = insert_at_end(head, 20)
+head = insert_at_end(head, 30)
+head = insert_at_position(head, 15, 2)
 print("List after insertions:")
-cdll.display()
+display(head)
 
-cdll.delete_first()
-cdll.delete_last()
-cdll.delete_at_position(2)
-print("List after deletions:")
-cdll.display()
+head = del_at_beginning(head)
+print("List after deleting the first node:")
+display(head)
 
-cdll.reverse()
+head = del_at_end(head)
+print("List after deleting the last node:")
+display(head)
+
+head = reverse(head)
 print("List after reversal:")
-cdll.display()
+display(head)
